@@ -4,6 +4,11 @@
 
 // TODO P4: make a constant SYSTEM here: the rules for every answer (tone, length, format).
 //          Then send it as the first message, before the user's message, in ask().
+const SYSTEM = `
+답변은 존댓말(해요체)로 답한다.
+줄바꿈 없는 한 문단으로, 세 문장 이내로 답한다.
+목록, 제목, 굵은 글씨, 코드 블록 등 마크다운 형식을 사용하지 않는다.
+`;
 
 // ask("a question")  ->  the model's answer, as a string
 export async function ask(question) {
@@ -17,6 +22,7 @@ export async function ask(question) {
     body: JSON.stringify({
       model: process.env.LLM_MODEL,
       messages: [
+        { role: "system", content: SYSTEM },
         { role: "user", content: question },
       ],
     }),
